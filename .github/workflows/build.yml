@@ -23,15 +23,12 @@ jobs:
       run: gem install cocoapods
     
     - name: Install dependencies
-      run: |
-        cd veivo
-        pod install
+      run: pod install
     
     - name: Build iOS App
       run: |
-        cd veivo
         xcodebuild -workspace veivo.xcworkspace \
                    -scheme veivo \
                    -configuration Release \
-                   -destination 'generic/platform=iOS Simulator,name=iPhone 14' \
+                   -destination 'generic/platform=iOS Simulator,name=iPhone 15' \
                    clean build
