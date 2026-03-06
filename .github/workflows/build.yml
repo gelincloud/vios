@@ -1,0 +1,58 @@
+name: Build iOS
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    - name: Setup Xcode
+      uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: latest-stable
+    
+    - name: Install CocoaPods dependencies
+      run: |
+        cd veivo
+        pod install
+    
+    - name: Build iOS App
+      run: |
+        cd veivo
+        xcodebuild -workspace veivo.xcworkspace \
+                   -scheme veivo \
+                   -configuration Release \
+                   -destination 'generic/platform=iOS' \
+                   clean build
+    
+    - name: Archive iOS App
+      run: |
+        cd veivo
+        xcodebuild -workspace veivo.xcworkspace \
+                   -scheme veivo \
+                   -configuration Release \
+                   -archivePath build/veivo.xcarchive \
+                   archive
+    
+    - name: Export IPA
+      run: |
+        cd veivo
+        xcodebuild -exportArchive \
+                   -archivePath build/veivo.xcarchive \
+                   -exportPath build \
+                   -exportOptionsPlist ExportOptions.plist
+    
+    - name: Upload IPA
+      uses: actions/upload-artifact@v3
+      with:
+        name: veivo-ipa
+        path: veivo/build/*.ipa
+        retention-days: 30
