@@ -1,0 +1,12 @@
+{
+    "name": "Veivo",
+    "version": "1.1",
+    "start_url": "https://www.veivo.com",
+	"xwalk_launch_screen": {
+	  "default": {
+	     "background_color": "#0000ff",
+	     "background_image": "load@2x.png",
+	     "image_border": "30px 40px stretch"
+	   }
+	}
+}

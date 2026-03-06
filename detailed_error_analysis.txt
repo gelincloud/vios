@@ -1,0 +1,148 @@
+====================================================================
+GitHub Actions 详细错误分析报告
+====================================================================
+
+提交信息：fix: 添加CocoaPods安装步骤以解决依赖同步错误23
+提交SHA：8dde8e7a1dbd17229caa0cb36fe537059b1644b5
+时间：2026-02-25T14:35:15Z
+
+====================================================================
+Workflow 修改内容（Diff分析）
+====================================================================
+
+主要变化：
+1. ❌ 移除了 BUILD_ARGS 数组
+   - 之前有：VALID_ARCHS=arm64, ONLY_ACTIVE_ARCH=NO, 
+            CLANG_ENABLE_MODULES=YES, ENABLE_BITCODE=NO
+   - 现在：只有 CODE_SIGNING_ALLOWED=NO
+
+2. ❌ 简化了 Xcode setup
+   - 之前：输出 Xcode 版本和路径
+   - 现在：只输出 Xcode 版本
+
+3. ❌ 简化了 CocoaPods 安装
+   - 之前：有详细的状态输出
+   - 现在：简化了输出
+
+4. ❌ 简化了 Export IPA
+   - 之前：有验证和成功/警告输出
+   - 现在：直接执行
+
+====================================================================
+最可能的具体错误原因
+====================================================================
+
+基于修改内容的分析，以下是可能的错误：
+
+错误1：❌ 缺少关键构建参数 ⭐ 最可能
+   - 移除了 VALID_ARCHS=arm64
+   - 移除了 ONLY_ACTIVE_ARCH=NO  
+   - 移除了 CLANG_ENABLE_MODULES=YES
+   - 移除了 ENABLE_BITCODE=NO
+   
+   影响：可能导致架构不兼容、编译失败
+
+错误2：❌ xcodebuild 构建参数不完整
+   当前命令：
+   xcodebuild archive \
+     -workspace veivo.xcworkspace \
+     -scheme veivo \
+     -configuration Release \
+     -archivePath ... \
+     CODE_SIGNING_ALLOWED=NO
+   
+   缺少：
+   - VALID_ARCHS=arm64
+   - ONLY_ACTIVE_ARCH=NO
+   - GCC_WARN_INHIBIT_ALL_WARNINGS=YES
+
+错误3：❌ CocoaPods 依赖问题
+   - pod deintegrate || true 可能失败
+   - pod install --repo-update 可能失败
+   - 网络问题导致 repo update 失败
+
+错误4：❌ Archive 路径问题
+   - 使用 ${{ github.workspace }}/build/veivo.xcarchive
+   - 但可能没有 build 目录
+
+====================================================================
+建议的修复方案
+====================================================================
+
+方案1：恢复完整的构建参数（推荐）
+```yaml
+BUILD_ARGS=(
+  "CODE_SIGNING_ALLOWED=NO"
+  "VALID_ARCHS=arm64"
+  "ONLY_ACTIVE_ARCH=NO"
+  "CLANG_ENABLE_MODULES=YES"
+  "ENABLE_BITCODE=NO"
+)
+
+xcodebuild archive \
+  -workspace veivo.xcworkspace \
+  -scheme veivo \
+  -configuration Release \
+  -archivePath ${{ github.workspace }}/build/veivo.xcarchive \
+  "${BUILD_ARGS[@]}"
+```
+
+方案2：增强错误处理
+```yaml
+- name: Build Archive
+  run: |
+    if [ -d "veivo.xcworkspace" ]; then
+      echo "Building with workspace..."
+      xcodebuild archive \
+        -workspace veivo.xcworkspace \
+        -scheme veivo \
+        -configuration Release \
+        -archivePath ${{ github.workspace }}/build/veivo.xcarchive \
+        CODE_SIGNING_ALLOWED=NO \
+        VALID_ARCHS=arm64 \
+        ONLY_ACTIVE_ARCH=NO \
+        GCC_WARN_INHIBIT_ALL_WARNINGS=YES
+    fi
+```
+
+方案3：改进 CocoaPods 安装
+```yaml
+- name: Install CocoaPods
+  run: |
+    if [ -f "Podfile" ]; then
+      echo "Installing CocoaPods..."
+      sudo gem install cocoapods -n /usr/local/bin
+      pod repo update
+      pod deintegrate || true
+      pod install --repo-update --clean-install
+    fi
+```
+
+====================================================================
+下一步操作
+====================================================================
+
+1. 检查 veivo.xcworkspace 是否存在
+   ```bash
+   ls -la veivo.xcworkspace
+   ```
+
+2. 检查 Podfile 配置
+   ```bash
+   cat Podfile
+   ```
+
+3. 尝试本地构建测试
+   ```bash
+   pod install
+   xcodebuild archive \
+     -workspace veivo.xcworkspace \
+     -scheme veivo \
+     -configuration Release \
+     -archivePath ./build/veivo.xcarchive \
+     CODE_SIGNING_ALLOWED=NO
+   ```
+
+4. 应用修复后的workflow配置
+
+====================================================================

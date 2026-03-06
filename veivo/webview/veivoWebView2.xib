@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina5_9" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment version="2304" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="veivoWebView">
+            <connections>
+                <outlet property="backGroundBg" destination="D0E-dz-caT" id="NG4-TY-tlB"/>
+                <outlet property="commonView" destination="g73-5A-zZF" id="v39-92-eF9"/>
+                <outlet property="editTF" destination="VaZ-vC-mLh" id="Car-Yy-eeK"/>
+                <outlet property="iMenuCover" destination="dGR-nl-5iR" id="zkG-F2-R4g"/>
+                <outlet property="menuTable" destination="zNI-OU-MR0" id="Tul-6A-5J0"/>
+                <outlet property="sendBt" destination="VML-Mv-JhF" id="7tD-Qv-giI"/>
+                <outlet property="titleView" destination="EDL-9Q-3cq" id="d0h-6z-IwH"/>
+                <outlet property="titlelabel" destination="Q17-2G-JDU" id="3Wl-bi-1aW"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="bhu-Wb-4Dv"/>
+                <outlet property="webView" destination="7Xu-AL-YGv" id="gdQ-4N-3ho"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <webView contentMode="scaleToFill" scalesPageToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7Xu-AL-YGv">
+                    <rect key="frame" x="0.0" y="92" width="375" height="686"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" priority="900" constant="14" id="UIq-JZ-7eD"/>
+                    </constraints>
+                    <viewLayoutGuide key="safeArea" id="pa1-Cf-aGg"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="NnY-pF-pPL"/>
+                    </connections>
+                </webView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EDL-9Q-3cq">
+                    <rect key="frame" x="0.0" y="44" width="375" height="48"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I7y-38-lZt">
+                            <rect key="frame" x="5" y="10" width="40" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" image="titleback.png">
+                                <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="backAction:" destination="-1" eventType="touchUpInside" id="dum-pg-wRz"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="加载中..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q17-2G-JDU">
+                            <rect key="frame" x="94" y="17" width="188" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T8f-js-Lw8">
+                            <rect key="frame" x="339" y="13" width="30" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" image="titlemore.png">
+                                <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="moreAction:" destination="-1" eventType="touchUpInside" id="aoC-Oh-KvG"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <viewLayoutGuide key="safeArea" id="YH1-qz-3hb"/>
+                </view>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dGR-nl-5iR">
+                    <rect key="frame" x="0.0" y="92" width="375" height="730"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0hS-Wr-yzh">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="730"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <state key="normal">
+                                <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="hiddenCover:" destination="-1" eventType="touchUpInside" id="JXx-Kp-W4N"/>
+                            </connections>
+                        </button>
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" scrollEnabled="NO" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="zNI-OU-MR0">
+                            <rect key="frame" x="175" y="0.0" width="200" height="600"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
+                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <viewLayoutGuide key="safeArea" id="AQj-YK-QUr"/>
+                            <connections>
+                                <outlet property="dataSource" destination="-1" id="e99-6J-iKk"/>
+                                <outlet property="delegate" destination="-1" id="ngu-mW-tgx"/>
+                            </connections>
+                        </tableView>
+                    </subviews>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                </view>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g73-5A-zZF">
+                    <rect key="frame" x="0.0" y="730" width="375" height="48"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jgu-Yd-ySS">
+                            <rect key="frame" x="0.0" y="3" width="44" height="39"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" image="closebt.png">
+                                <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="hiddenCommonInput:" destination="-1" eventType="touchUpInside" id="VlR-Qr-GyF"/>
+                            </connections>
+                        </button>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="intputbgnor.png" translatesAutoresizingMaskIntoConstraints="NO" id="D0E-dz-caT">
+                            <rect key="frame" x="40" y="5" width="278" height="36"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VaZ-vC-mLh">
+                            <rect key="frame" x="43" y="5" width="278" height="36"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits"/>
+                            <connections>
+                                <outlet property="delegate" destination="-1" id="Xpr-c9-kKe"/>
+                            </connections>
+                        </textField>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VML-Mv-JhF">
+                            <rect key="frame" x="324" y="5" width="44" height="36"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <state key="normal" title="发送" backgroundImage="sendbtbg.png">
+                                <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="sendbtAction:" destination="-1" eventType="touchUpInside" id="A3s-O0-HSV"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" red="0.80784313725490198" green="0.81960784313725488" blue="0.96470588235294119" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="EDL-9Q-3cq" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="4Qn-XM-Dv2"/>
+                <constraint firstAttribute="trailing" secondItem="EDL-9Q-3cq" secondAttribute="trailing" id="7Ox-le-WNC"/>
+                <constraint firstItem="7Xu-AL-YGv" firstAttribute="top" secondItem="EDL-9Q-3cq" secondAttribute="bottom" id="Fhy-A6-O6f"/>
+                <constraint firstItem="EDL-9Q-3cq" firstAttribute="trailing" secondItem="7Xu-AL-YGv" secondAttribute="trailing" id="NiQ-qT-AO9"/>
+                <constraint firstItem="EDL-9Q-3cq" firstAttribute="trailing" secondItem="dGR-nl-5iR" secondAttribute="trailing" id="Ppu-SO-WWg"/>
+                <constraint firstItem="EDL-9Q-3cq" firstAttribute="trailing" secondItem="g73-5A-zZF" secondAttribute="trailing" id="Q7j-zC-wlE"/>
+                <constraint firstItem="g73-5A-zZF" firstAttribute="bottom" secondItem="Iye-Ue-kUb" secondAttribute="bottom" id="SD0-qH-Ny9"/>
+                <constraint firstAttribute="bottom" secondItem="dGR-nl-5iR" secondAttribute="bottom" constant="-10" id="Sds-9E-vwp"/>
+                <constraint firstItem="EDL-9Q-3cq" firstAttribute="leading" secondItem="7Xu-AL-YGv" secondAttribute="leading" id="dhn-zh-Wth"/>
+                <constraint firstItem="7Xu-AL-YGv" firstAttribute="bottom" secondItem="Iye-Ue-kUb" secondAttribute="bottom" id="dqp-E4-yy6"/>
+                <constraint firstItem="g73-5A-zZF" firstAttribute="top" secondItem="Iye-Ue-kUb" secondAttribute="bottom" constant="-48" id="dsi-rZ-IgR"/>
+                <constraint firstItem="dGR-nl-5iR" firstAttribute="top" secondItem="Iye-Ue-kUb" secondAttribute="top" constant="48" id="gyX-eo-fBg"/>
+                <constraint firstItem="EDL-9Q-3cq" firstAttribute="top" secondItem="7Xu-AL-YGv" secondAttribute="top" constant="-48" id="iu0-tH-U1m"/>
+                <constraint firstItem="EDL-9Q-3cq" firstAttribute="leading" secondItem="dGR-nl-5iR" secondAttribute="leading" id="myP-Pk-lmG"/>
+                <constraint firstItem="EDL-9Q-3cq" firstAttribute="top" secondItem="Iye-Ue-kUb" secondAttribute="top" id="sti-rT-Ubg"/>
+                <constraint firstItem="EDL-9Q-3cq" firstAttribute="leading" secondItem="g73-5A-zZF" secondAttribute="leading" id="yQE-cx-0Dg"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="Iye-Ue-kUb"/>
+            <point key="canvasLocation" x="60" y="-194.75262368815595"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="closebt.png" width="197" height="177"/>
+        <image name="intputbgnor.png" width="678" height="138"/>
+        <image name="sendbtbg.png" width="165" height="135"/>
+        <image name="titleback.png" width="80" height="62"/>
+        <image name="titlemore.png" width="192" height="216"/>
+    </resources>
+</document>

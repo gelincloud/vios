@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:/Users/linxiaojun/newveivo/comveivo/veivoios/veivo/ios/FN-veivo_iPhone_v1/veivo.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Pods/Pods.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:veivo.xcodeproj">
+   </FileRef>
+</Workspace>

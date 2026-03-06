@@ -1,0 +1,25 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "ac0e9091-9211-4270-a09a-b92149cbd01b",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+    "ac0e9091-9211-4270-a09a-b92149cbd01b" : {
+
+    }
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "ac0e9091-9211-4270-a09a-b92149cbd01b" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "A9EFB2C2-0E03-41CA-A49C-60A59ACCCBB0",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "ac0e9091-9211-4270-a09a-b92149cbd01b" : "comveivo\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "veivo",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "veivoios\/veivo\/ios\/FN-veivo_iPhone_v1\/veivo.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "http:\/\/120.27.137.14\/svn\/comveivo",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "ac0e9091-9211-4270-a09a-b92149cbd01b"
+    }
+  ]
+}

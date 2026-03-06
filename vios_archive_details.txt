@@ -1,0 +1,69 @@
+====================================================================
+GITHUB ACTIONS - Archive Project 步骤详细信息
+====================================================================
+仓库：gelin-cloud/vios
+Workflow: Build and Export IPA
+Commit: fix: 添加CocoaPods安装步骤以解决依赖同步错误8
+状态：失败
+运行时间：2026-02-25 03:40:27 UTC - 2026-02-25 03:56:36 UTC
+耗时：16分9秒
+
+====================================================================
+步骤名称：Archive project
+步骤状态：失败 (failure)
+====================================================================
+
+步骤配置：
+--------
+- 优先使用 CocoaPods workspace (veivo.xcworkspace)
+- 构建配置：Release
+- 目标架构：arm64
+- 禁用代码签名：CODE_SIGNING_ALLOWED=NO
+- 警告级别：GCC_WARN_INHIBIT_ALL_WARNINGS=YES
+- 架构检查：CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER=NO
+
+执行逻辑：
+--------
+1. 检查是否存在 veivo.xcworkspace
+   ├─ 存在：使用 xcodebuild archive 命令构建 workspace
+   └─ 不存在：检查 veivo.xcodeproj
+
+2. 如果 workspace 存在，执行：
+   xcodebuild archive \
+     -workspace veivo.xcworkspace \
+     -scheme veivo \
+     -configuration Release \
+     -archivePath ${{ github.workspace }}/build/veivo.xcarchive \
+     CODE_SIGNING_ALLOWED=NO \
+     GCC_WARN_INHIBIT_ALL_WARNINGS=YES \
+     CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER=NO \
+     VALID_ARCHS="arm64" \
+     ONLY_ACTIVE_ARCH=NO
+
+3. 构建输出位置：
+   ${{ github.workspace }}/build/veivo.xcarchive
+
+4. 验证步骤：
+   检查 archive 是否成功生成
+
+====================================================================
+常见失败原因：
+====================================================================
+1. CocoaPods 依赖安装失败
+2. Xcode 项目配置错误
+3. 缺少必要的配置文件
+4. 架构不兼容问题
+5. 项目文件损坏
+6. 权限问题
+
+====================================================================
+建议排查步骤：
+====================================================================
+1. 检查 Podfile 配置是否正确
+2. 验证 veivo.xcworkspace 是否存在且完整
+3. 查看 Xcode 控制台输出中的具体错误信息
+4. 尝试本地构建测试
+5. 检查代码签名设置（虽然已禁用）
+6. 验证 scheme 配置
+
+====================================================================

@@ -1,0 +1,119 @@
+====================================================================
+iOS Build Fix Report - gelin-cloud/vios
+====================================================================
+Date: 2026-02-27
+Issue: Build workflow for iOS project with Xcode 16
+
+====================================================================
+PROBLEM ANALYSIS
+====================================================================
+
+Previous build.yml was configured for Android only, not iOS.
+
+Required changes:
+1. Changed runner from ubuntu-latest to macos-13 (Xcode 16 compatible)
+2. Added Xcode 16 selection step
+3. Added CocoaPods installation
+4. Changed build command from Gradle to xcodebuild
+5. Added proper Xcode build parameters
+6. Added IPA export step
+
+====================================================================
+FIXES APPLIED
+====================================================================
+
+✅ 1. Updated Runner
+   - Changed: ubuntu-latest → macos-13
+   - Reason: Xcode 16 requires macOS 13+ (Sonoma)
+
+✅ 2. Added Xcode 16 Selection
+   - Command: sudo xcode-select -s /Applications/Xcode_16.app/Contents/Developer
+   - Ensures correct Xcode version is used
+
+✅ 3. Enhanced CocoaPods Setup
+   - Added pod deintegrate (clean up existing pods)
+   - Added pod install --repo-update --clean-install
+   - Ensures fresh dependency installation
+
+✅ 4. Improved Build Configuration
+   - Added VALID_ARCHS=arm64 (for Apple Silicon)
+   - Added ONLY_ACTIVE_ARCH=NO (build for all architectures)
+   - Added GCC_WARN_INHIBIT_ALL_WARNINGS=YES (suppress warnings)
+   - Added CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER=NO
+
+✅ 5. Added IPA Export
+   - Created exportOptions.plist for proper export
+   - Added xcodebuild -exportArchive step
+   - Uploads IPA and dSYM files as artifacts
+
+====================================================================
+BUILD COMMAND DETAILS
+====================================================================
+
+Archive command:
+xcodebuild archive \
+  -workspace veivo.xcworkspace \
+  -scheme veivo \
+  -configuration Release \
+  -archivePath ./build/veivo.xcarchive \
+  CODE_SIGNING_ALLOWED=NO \
+  VALID_ARCHS="arm64" \
+  ONLY_ACTIVE_ARCH=NO \
+  GCC_WARN_INHIBIT_ALL_WARNINGS=YES \
+  CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER=NO
+
+Export command:
+xcodebuild -exportArchive \
+  -archivePath ./build/veivo.xcarchive \
+  -exportPath ./build/export \
+  -exportOptionsPlist exportOptions.plist
+
+====================================================================
+EXPECTED ARTIFACTS
+====================================================================
+
+After successful build:
+1. veivo-release-ipa: The exported .ipa file
+2. veivo-dSYM: Debug symbols for crash reporting
+
+====================================================================
+TROUBLESHOOTING
+====================================================================
+
+If build fails:
+
+1. Check Xcode version:
+   - Run: xcodebuild -version
+   - Should show Xcode 16.x
+
+2. Check workspace/project existence:
+   - Run: ls -la veivo.xcworkspace veivo.xcodeproj
+   - At least one must exist
+
+3. Check Podfile:
+   - Run: cat Podfile
+   - Verify dependencies are correct
+
+4. Local test (before pushing):
+   - Run: pod install
+   - Run: xcodebuild -workspace veivo.xcworkspace -scheme veivo -configuration Release -archivePath ./test.xcarchive
+
+5. Common errors:
+   - "No such module": Check Podfile and dependencies
+   - "Code signing required": We set CODE_SIGNING_ALLOWED=NO
+   - "Architectures not compatible": Check VALID_ARCHS setting
+
+====================================================================
+NEXT STEPS
+====================================================================
+
+1. Commit and push the changes:
+   git add build.yml exportOptions.plist
+   git commit -m "fix: configure iOS build with Xcode 16"
+   git push origin main
+
+2. Monitor the workflow run on GitHub Actions
+
+3. Download the IPA artifact after successful build
+
+====================================================================

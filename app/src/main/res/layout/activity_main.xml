@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+
+android:paddingBottom="0dp"
+android:paddingLeft="0dp"
+android:paddingRight="0dp"
+android:paddingTop="0dp"
+tools:context="com.veivo.veivowebview.MainActivity">
+
+    <WebView
+        android:id="@+id/activity_main"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="0dp" />
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/facebook"
+        android:layout_width="1px"
+        android:layout_height="1px"
+        android:text=""
+        />
+
+<!--    <com.twitter.sdk.android.core.identity.TwitterLoginButton-->
+<!--        android:id="@+id/twitter_login_button"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content" />-->
+<!--    <com.twitter.sdk.android.core.identity.TwitterLoginButton-->
+<!--        android:id="@+id/login_button"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="center_horizontal"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:layout_marginBottom="16dp"-->
+<!--        android:text="Log in with Twitter" />-->
+
+
+
+</RelativeLayout>

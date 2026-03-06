@@ -1,0 +1,144 @@
+name: Build and Export IPA (Xcode 16)
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Verify Xcode Version
+        run: |
+          echo "=== Current Xcode Version ==="
+          xcodebuild -version
+          echo "Xcode Path:"
+          xcode-select -p
+
+      - name: Install CocoaPods and Apply Build Fix
+        run: |
+          # 检查并安装 CocoaPods
+          if [ -f "Podfile" ]; then
+            echo "Podfile found. Installing dependencies..."
+            sudo gem install cocoapods
+            pod repo update
+
+            echo "Applying build fix for BoringSSL-GRPC..."
+            # 使用更稳健的方式追加修复脚本
+            cat << 'PODFILE_FIX_EOF' >> Podfile
+
+# ========== Automatically added fix hook (for BoringSSL-GRPC) ==========
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    if target.name == 'BoringSSL-GRPC'
+      target.build_configurations.each do |config|
+        # Remove conflicting build settings causing '-G' error
+        config.build_settings.delete('GCC_WARN_INHIBIT_ALL_WARNINGS')
+        config.build_settings['OTHER_CFLAGS'] = ''
+        config.build_settings['OTHER_CPLUSPLUSFLAGS'] = ''
+        # Optional: Disable optimization for compatibility
+        config.build_settings['GCC_OPTIMIZATION_LEVEL'] = '0'
+        puts "Applied build fix for #{target.name}"
+      end
+    end
+    # Unify deployment target to avoid warnings
+    target.build_configurations.each do |config|
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.0'
+    end
+  end
+end
+PODFILE_FIX_EOF
+
+            echo "Build fix added. Cleaning and installing Pods..."
+            pod deintegrate || true
+            pod install --repo-update --clean-install
+            echo "CocoaPods installation completed."
+          else
+            echo "No Podfile found. Skipping CocoaPods installation."
+          fi
+
+      - name: Build Archive
+        run: |
+          # Define build arguments
+          BUILD_ARGS=(
+            "CODE_SIGNING_ALLOWED=NO"
+            "VALID_ARCHS=arm64"
+            "ONLY_ACTIVE_ARCH=NO"
+            "CLANG_ENABLE_MODULES=YES"
+            "ENABLE_BITCODE=NO"
+          )
+
+          # Detect and select project file
+          if [ -d "veivo.xcworkspace" ]; then
+            echo "Building with Workspace..."
+            xcodebuild archive \
+              -workspace veivo.xcworkspace \
+              -scheme veivo \
+              -configuration Release \
+              -archivePath /github/workspace/build/veivo.xcarchive \
+              "${BUILD_ARGS[@]}"
+          elif [ -d "veivo.xcodeproj" ]; then
+            echo "Building with Project..."
+            xcodebuild archive \
+              -project veivo.xcodeproj \
+              -scheme veivo \
+              -configuration Release \
+              -archivePath /github/workspace/build/veivo.xcarchive \
+              "${BUILD_ARGS[@]}"
+          else
+            echo "Error: No Xcode project file (.xcodeproj or .xcworkspace) found."
+            exit 1
+          fi
+
+      - name: Export IPA
+        run: |
+          ARCHIVE_PATH="/github/workspace/build/veivo.xcarchive"
+          if [ ! -d "$ARCHIVE_PATH" ]; then
+            echo "Error: Archive not found. Previous build step likely failed."
+            exit 1
+          fi
+
+          echo "Creating ExportOptions.plist..."
+          cat > ExportOptions.plist << 'EOF'
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>method</key>
+  <string>app-store</string>
+  <key>teamID</key>
+  <string>${{ secrets.TEAM_ID }}</string>
+  <key>uploadBitcode</key>
+  <false/>
+  <key>uploadSymbols</key>
+  <false/>
+</dict>
+</plist>
+EOF
+
+          echo "Exporting IPA..."
+          xcodebuild -exportArchive \
+            -archivePath "$ARCHIVE_PATH" \
+            -exportOptionsPlist ExportOptions.plist \
+            -exportPath /github/workspace/build
+
+          # Check exported IPA
+          if compgen -G /github/workspace/build/*.ipa > /dev/null; then
+            echo "IPA export successful!"
+          else
+            echo "Warning: No .ipa file found after export."
+          fi
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: veivo-ipa
+          path: /github/workspace/build/*.ipa
+          if-no-files-found: ignore
+          retention-days: 7

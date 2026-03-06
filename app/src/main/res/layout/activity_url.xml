@@ -1,0 +1,212 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:id="@+id/urlPage"  
+android:layout_width="fill_parent"   
+android:layout_height="fill_parent"
+android:orientation="vertical">  
+  
+<RelativeLayout
+    android:id="@+id/urlPageTitle"
+    android:layout_width="fill_parent"
+    android:layout_height="54dp"
+    android:background="#284F83"
+    android:orientation="vertical" >
+
+<TextView
+    android:id="@+id/backToMain"
+    android:layout_width="34dp"
+    android:layout_height="24dp"
+    android:layout_alignParentLeft="true"
+    android:layout_centerVertical="true"
+    android:layout_marginLeft="5dp"
+    android:background="@drawable/back"
+    />
+
+<TextView
+    android:id="@+id/urlTitle"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
+    android:ellipsize="end"
+    android:maxLines="1"
+    android:maxWidth="200dp"
+    android:text="Loading ..."
+    android:textColor="@color/white"
+    android:textSize="20dp"
+    android:typeface="sans" />
+
+<TextView
+    android:id="@+id/moreButton"
+    android:layout_width="54dp"
+    android:layout_height="54dp"
+    android:layout_alignParentRight="true"
+    android:layout_centerVertical="true"
+    android:layout_marginRight="5dp"
+    android:background="@drawable/more"
+    />
+
+</RelativeLayout>
+
+<!--org.xwalk.core.XWalkView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/urlWebView"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentLeft="true"
+    android:layout_below="@+id/urlPageTitle" >
+
+</org.xwalk.core.XWalkView-->
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+
+        android:paddingTop="50dp"
+        tools:context="com.veivo.veivowebview.MainActivity">
+
+        <WebView
+            android:id="@+id/urlWebView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"/>
+
+
+    </RelativeLayout>
+
+
+<RelativeLayout
+    android:id="@+id/urlReply"
+    android:layout_width="fill_parent"
+    android:layout_height="59dp"
+    android:layout_alignParentBottom="true"
+    android:orientation="vertical" 
+    android:background="@drawable/light_purple">
+<TextView
+    android:id="@+id/closeButton"
+    android:layout_width="55dp"
+    android:layout_height="55dp"
+    android:layout_alignParentLeft="true"
+    android:layout_marginLeft="5dp"
+    android:background="@drawable/close" />
+
+<EditText
+    android:id="@+id/replyText"
+    android:layout_width="wrap_content"
+    android:layout_height="45dp"
+    android:layout_alignParentBottom="true"
+    android:layout_alignTop="@+id/replyButton"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_toLeftOf="@+id/replyButton"
+    android:layout_toRightOf="@+id/closeButton"
+    android:ems="10"
+    android:inputType="text" >
+
+    <requestFocus />
+</EditText>
+
+<TextView
+    android:id="@+id/replyButton"
+    android:layout_width="55dp"
+    android:layout_height="45dp"
+    android:layout_alignParentRight="true"
+    android:layout_centerVertical="true"
+    android:layout_marginRight="5dp"
+    android:background="@drawable/green"
+    android:gravity="center"
+    android:text="@string/url_send"
+    android:textColor="@color/white"
+    android:textColorHint="@color/white"
+    android:alpha="0.5"
+    android:textSize="20dp"
+    android:typeface="sans" />
+
+</RelativeLayout>  
+<RelativeLayout
+    android:id="@+id/urlChangeFont"
+    android:layout_width="fill_parent"
+    android:layout_height="59dp"
+    android:layout_alignParentBottom="true"
+    android:orientation="vertical" 
+    android:background="@drawable/light_purple">
+<TextView
+    android:id="@+id/close_changeFont"
+    android:layout_width="55dp"
+    android:layout_height="55dp"
+    android:layout_alignParentLeft="true"
+    android:layout_marginLeft="5dp"
+    android:background="@drawable/close" />
+<RelativeLayout
+    android:id="@+id/urlFonts"
+    android:layout_width="fill_parent"
+    android:layout_height="59dp"
+    android:layout_alignParentBottom="true"
+    android:layout_centerHorizontal="true"
+    android:orientation="vertical" 
+    android:layout_toRightOf="@+id/close_changeFont"
+    android:layout_marginLeft="15dp"
+    android:background="@drawable/light_purple">
+<TextView
+    android:id="@+id/fontSmall"
+    android:layout_width="45dp"
+    android:layout_height="45dp"
+    android:layout_centerVertical="true"
+    android:background="@color/gray"
+    android:gravity="center"
+    android:text="A"
+    android:textColor="@color/white"
+    android:textColorHint="@color/white"
+    android:textSize="16dp"
+    android:typeface="sans" />
+
+<TextView
+    android:id="@+id/fontNormal"
+    android:layout_width="45dp"
+    android:layout_height="45dp"
+    android:layout_centerVertical="true"
+    android:layout_marginLeft="14dp"
+    android:layout_toRightOf="@+id/fontSmall"
+    android:background="@color/gray"
+    android:gravity="center"
+    android:text="A"
+    android:textColor="@color/white"
+    android:textColorHint="@color/white"
+    android:textSize="20dp"
+    android:typeface="sans" />
+
+<TextView
+    android:id="@+id/fontBig"
+    android:layout_width="45dp"
+    android:layout_height="45dp"
+    android:layout_centerVertical="true"
+    android:layout_marginLeft="14dp"
+    android:layout_toRightOf="@+id/fontNormal"
+    android:background="@color/gray"
+    android:gravity="center"
+    android:text="A"
+    android:textColor="@color/white"
+    android:textColorHint="@color/white"
+    android:textSize="26dp"
+    android:typeface="sans" />
+
+<TextView
+    android:id="@+id/fontVeryBig"
+    android:layout_width="45dp"
+    android:layout_height="45dp"
+    android:layout_centerVertical="true"
+    android:layout_marginLeft="15dp"
+    android:layout_toRightOf="@+id/fontBig"
+    android:background="@color/gray"
+    android:gravity="center"
+    android:text="A"
+    android:textColor="@color/white"
+    android:textColorHint="@color/white"
+    android:textSize="32dp"
+    android:typeface="sans" />
+</RelativeLayout>
+</RelativeLayout>  
+</RelativeLayout>

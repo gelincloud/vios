@@ -1,0 +1,139 @@
+====================================================================
+GITHUB ACTIONS - Archive project 步骤详细信息
+====================================================================
+
+仓库：gelin-cloud/vios
+Workflow: Build and Export IPA
+运行ID：22381127752
+Job ID：64781892153
+
+====================================================================
+步骤基本信息
+====================================================================
+步骤名称：Archive project
+步骤状态：失败 (failure)
+步骤编号：5
+结论：失败
+状态：已完成
+运行时间：2026-02-25 03:40:27 UTC - 2026-02-25 03:56:36 UTC
+耗时：16分9秒
+
+====================================================================
+步骤配置详情
+====================================================================
+
+执行条件：
+--------
+优先使用 CocoaPods workspace (veivo.xcworkspace)
+如果不存在，则检查 veivo.xcodeproj
+
+执行逻辑：
+--------
+1. 检查 veivo.xcworkspace 是否存在
+   ├─ 存在：使用 workspace 构建
+   └─ 不存在：使用 xcodeproj 构建
+
+2. 使用 xcodebuild archive 命令
+   xcodebuild archive \
+     -workspace veivo.xcworkspace \
+     -scheme veivo \
+     -configuration Release \
+     -archivePath ${{ github.workspace }}/build/veivo.xcarchive \
+     CODE_SIGNING_ALLOWED=NO \
+     GCC_WARN_INHIBIT_ALL_WARNINGS=YES \
+     CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER=NO \
+     VALID_ARCHS="arm64" \
+     ONLY_ACTIVE_ARCH=NO
+
+3. 构建输出位置
+   ${{ github.workspace }}/build/veivo.xcarchive
+
+====================================================================
+构建参数详解
+====================================================================
+
+-workspace veivo.xcworkspace
+  使用 CocoaPods workspace 进行构建
+  适用于集成第三方库的项目
+
+-scheme veivo
+  指定要构建的 scheme 名称
+  必须与项目中的 scheme 名称一致
+
+-configuration Release
+  构建配置为 Release
+  优化后的版本，用于发布
+
+-archivePath ${{ github.workspace }}/build/veivo.xcarchive
+  指定归档文件保存路径
+  .xcarchive 是 Xcode 的归档文件格式
+
+CODE_SIGNING_ALLOWED=NO
+  禁用代码签名
+  用于测试构建，不需要签名
+
+GCC_WARN_INHIBIT_ALL_WARNINGS=YES
+  抑制所有编译警告
+  避免警告干扰构建过程
+
+CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER=NO
+  禁用框架头文件中的引号包含警告
+  解决某些框架集成时的警告问题
+
+VALID_ARCHS="arm64"
+  只构建 arm64 架构
+-ONLY_ACTIVE_ARCH=NO
+  不只构建当前活动架构
+  构建所有指定的架构
+
+====================================================================
+输出文件
+====================================================================
+
+归档文件位置：
+  ${{ github.workspace }}/build/veivo.xcarchive
+
+归档文件包含：
+  ├─ dSYMs/       - 符号文件（用于崩溃分析）
+  ├─ Products/    - 编译后的二进制文件
+  │   ├─ Applications/
+  │   └─ Frameworks/
+  └─ _CodeSignature/ - 代码签名信息
+
+====================================================================
+后续步骤
+====================================================================
+
+步骤 6: Export IPA
+  ├─ 检查 archive 是否成功生成
+  ├─ 创建 ExportOptions.plist 配置文件
+  │   ├─ method: app-store
+  │   ├─ teamID: 从 secrets 读取
+  │   ├─ uploadBitcode: false
+  │   └─ uploadSymbols: false
+  └─ 导出 IPA 文件
+
+步骤 7: Upload IPA artifact
+  └─ 上传 .ipa 文件作为构建产物
+
+====================================================================
+失败原因分析
+====================================================================
+
+可能的原因：
+1. veivo.xcworkspace 不存在或损坏
+2. Podfile 配置错误或依赖问题
+3. Scheme 配置问题
+4. 项目文件损坏
+5. 权限问题
+6. 架构不兼容
+
+建议排查步骤：
+1. 检查 veivo.xcworkspace 是否存在
+2. 查看 Podfile 和 Podfile.lock
+3. 验证 scheme 配置
+4. 尝试本地构建测试
+5. 查看 Xcode 控制台输出
+6. 检查依赖版本兼容性
+
+====================================================================
