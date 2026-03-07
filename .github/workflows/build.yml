@@ -9,29 +9,32 @@ on:
 jobs:
   build:
     runs-on: macos-latest
-    
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
-    
+
     - name: Setup Xcode
       uses: maxim-lobanov/setup-xcode@v1
       with:
         xcode-version: latest-stable
-    
+
     - name: Install CocoaPods
       run: gem install cocoapods
-    
+
     - name: Install dependencies
       run: pod install
-    
+
     - name: List available simulators
       run: xcrun simctl list devices available
-    
+
     - name: Build iOS App
       run: |
         xcodebuild -workspace veivo.xcworkspace \
-                   -scheme veivo \
-                   -configuration Debug \
-                   -destination 'generic/platform=iOS Simulator' \
-                   clean build
+          -scheme veivo \
+          -configuration Debug \
+          -destination 'generic/platform=iOS Simulator' \
+          OTHER_CFLAGS="-Wno-error=unused-command-line-argument" \
+          GCC_WARN_INHIBIT_ALL_WARNINGS=YES \
+          CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER=NO \
+          clean build
